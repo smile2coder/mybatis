@@ -34,6 +34,10 @@ import org.apache.ibatis.cache.CacheException;
  * @author Eduardo Macarron
  *
  */
+
+/**
+ * 如果当前线程在缓存中获取不到值，则设置一个锁，其它线程会一直阻塞，直到当前线程从数据库中获取到值后设置到缓存中
+ */
 public class BlockingCache implements Cache {
 
   private long timeout;
@@ -64,6 +68,13 @@ public class BlockingCache implements Cache {
     }
   }
 
+  /**
+   * 进入方法首先获取 key 的锁
+   * 如果在缓存中获取到值，则释放锁并返回
+   * 如果在缓存中未获取到值，则不释放锁，直到 putObject 方法设置值后才释放锁
+   * @param key The key
+   * @return
+   */
   @Override
   public Object getObject(Object key) {
     acquireLock(key);

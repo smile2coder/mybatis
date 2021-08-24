@@ -133,6 +133,9 @@ public class TransactionalCache implements Cache {
     }
   }
 
+  /**
+   * 什么意思???
+   */
   private void unlockMissedEntries() {
     for (Object entry : entriesMissedInCache) {
       delegate.putObject(entry, null);

@@ -29,6 +29,7 @@ import org.apache.ibatis.cache.Cache;
 /*
  * FIFO缓存
  * 这个类就是维护一个FIFO链表，其他都委托给所包装的cache去做。典型的装饰模式
+ * 保证缓存的最大数量为 size
  */
 public class FifoCache implements Cache {
 
